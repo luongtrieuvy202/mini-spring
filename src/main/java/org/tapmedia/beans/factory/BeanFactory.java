@@ -8,12 +8,12 @@ import java.util.Objects;
 
 public interface BeanFactory {
 
-    /**
-     * Get Bean
-     *
-     * @param name
-     * @return
-     * @throws BeansException
-     */
-    Object getBean(String name) throws BeansException;
+	/**
+	 * Get Bean
+	 * @param name
+	 * @return
+	 * @throws BeansException
+	 */
+	Object getBean(String name) throws BeansException;
+
 }

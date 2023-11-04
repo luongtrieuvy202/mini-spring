@@ -1,5 +1,6 @@
 package org.tapmedia.beans.factory.support;
 
+import cn.hutool.core.bean.BeanUtil;
 import org.tapmedia.beans.BeansException;
 import org.tapmedia.beans.PropertyValue;
 import org.tapmedia.beans.factory.config.BeanDefinition;
@@ -35,12 +36,9 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			Class beanClass = beanDefinition.getBeanClass();
 			for (PropertyValue propertyValue : beanDefinition.getPropertyValues().getPropertyValues()) {
 				String name = propertyValue.getName();
-				String value = propertyValue.getValue();
+				Object value = propertyValue.getValue();
 
-				Class<?> type = beanClass.getDeclaredField(name).getType();
-				String methodName = "set" + name.substring(0, 1).toUpperCase() + name.substring(1);
-				Method method = beanClass.getDeclaredMethod(methodName, new Class[] { type });
-				method.invoke(bean, new Object[] { value });
+				BeanUtil.setFieldValue(bean, name, value);
 			}
 
 		}

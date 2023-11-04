@@ -1,9 +1,6 @@
 package org.tapmedia.test.ioc;
 
 import org.junit.Test;
-import org.tapmedia.beans.PropertyValue;
-import org.tapmedia.beans.PropertyValues;
-import org.tapmedia.beans.factory.Person;
 import org.tapmedia.beans.factory.config.BeanDefinition;
 import org.tapmedia.beans.factory.support.DefaultListableBeanFactory;
 import org.tapmedia.test.ioc.service.HelloService;

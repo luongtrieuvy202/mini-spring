@@ -4,7 +4,9 @@ import cn.hutool.core.bean.BeanUtil;
 import org.tapmedia.beans.BeansException;
 import org.tapmedia.beans.PropertyValue;
 import org.tapmedia.beans.factory.config.BeanDefinition;
+import org.tapmedia.beans.factory.config.BeanReference;
 
+import javax.enterprise.inject.spi.Bean;
 import java.lang.reflect.Method;
 
 public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFactory {
@@ -37,7 +39,10 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			for (PropertyValue propertyValue : beanDefinition.getPropertyValues().getPropertyValues()) {
 				String name = propertyValue.getName();
 				Object value = propertyValue.getValue();
-
+				if (value instanceof BeanReference) {
+					BeanReference beanReference = (BeanReference) value;
+					value = getBean(beanReference.getBeanName());
+				}
 				BeanUtil.setFieldValue(bean, name, value);
 			}
 

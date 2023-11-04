@@ -7,12 +7,6 @@ import java.net.URL;
 
 public interface Resource {
 
-	boolean exists();
-
-	File getFile() throws IOException;
-
 	InputStream getInputStream() throws IOException;
-
-	URL getURL() throws IOException;
 
 }

@@ -8,7 +8,15 @@ public class PropertyValues {
 	private final List<PropertyValue> propertyValueList = new ArrayList<>();
 
 	public void addPropertyValue(PropertyValue pv) {
-		propertyValueList.add(pv);
+		for (int i = 0; i < this.propertyValueList.size(); i++) {
+			PropertyValue currentPv = this.propertyValueList.get(i);
+			if (currentPv.getName().equals(pv.getName())) {
+				this.propertyValueList.set(i, pv);
+				return;
+			}
+		}
+
+		this.propertyValueList.add(pv);
 	}
 
 	public PropertyValue[] getPropertyValues() {

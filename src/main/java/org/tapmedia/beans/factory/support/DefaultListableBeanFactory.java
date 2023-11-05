@@ -1,5 +1,6 @@
 package org.tapmedia.beans.factory.support;
 
+import io.spring.javaformat.eclipse.jdt.jdk8.internal.core.search.matching.SecondaryTypeDeclarationPattern;
 import org.tapmedia.beans.BeansException;
 import org.tapmedia.beans.factory.BeanFactory;
 import org.tapmedia.beans.factory.ConfigurableListBeanFactory;
@@ -7,6 +8,7 @@ import org.tapmedia.beans.factory.config.BeanDefinition;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFactory
 		implements ConfigurableListBeanFactory, BeanDefinitionRegistry {
@@ -31,6 +33,12 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	@Override
 	public void preInstantiateSingletons() throws Exception {
 		beanDefinitionMap.keySet().forEach(this::getBean);
+	}
+
+	@Override
+	public String[] getBeanDefinitionNames() {
+		Set<String> beanNames = beanDefinitionMap.keySet();
+		return beanNames.toArray(new String[beanNames.size()]);
 	}
 
 	@Override

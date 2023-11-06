@@ -13,4 +13,6 @@
     <bean id="car" class="org.tapmedia.test.ioc.bean.Car">
         <property name="brand" value="porsche"/>
     </bean>
+    <bean class="org.springframework.test.ioc.common.CustomBeanFactoryPostProcessor"/>
+    <bean class="org.springframework.test.ioc.common.CustomerBeanPostProcessor"/>
 </beans>

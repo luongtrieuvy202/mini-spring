@@ -9,9 +9,12 @@
 /Users/admin/Downloads/minispring/src/main/java/org/tapmedia/core/io/ClassPathResource.java
 /Users/admin/Downloads/minispring/src/main/java/org/tapmedia/beans/factory/BeanFactory.java
 /Users/admin/Downloads/minispring/src/main/java/org/tapmedia/beans/factory/ConfigurableListBeanFactory.java
+/Users/admin/Downloads/minispring/src/main/java/org/tapmedia/beans/factory/FactoryBean.java
 /Users/admin/Downloads/minispring/src/main/java/org/tapmedia/beans/factory/config/SingletonBeanRegistry.java
+/Users/admin/Downloads/minispring/src/main/java/org/tapmedia/context/support/ApplicationContextAwareProcessor.java
 /Users/admin/Downloads/minispring/src/main/java/org/tapmedia/beans/factory/support/DefaultSingletonBeanRegistry.java
 /Users/admin/Downloads/minispring/src/main/java/org/tapmedia/beans/factory/support/DefaultListableBeanFactory.java
+/Users/admin/Downloads/minispring/src/main/java/org/tapmedia/beans/factory/Aware.java
 /Users/admin/Downloads/minispring/src/main/java/org/tapmedia/Main.java
 /Users/admin/Downloads/minispring/src/main/java/org/tapmedia/context/support/ClassPathXmlApplicationContext.java
 /Users/admin/Downloads/minispring/src/main/java/org/tapmedia/beans/factory/support/InstantiationStrategy.java
@@ -25,6 +28,7 @@
 /Users/admin/Downloads/minispring/src/main/java/org/tapmedia/core/io/DefaultResourceLoader.java
 /Users/admin/Downloads/minispring/src/main/java/org/tapmedia/core/io/ResourceLoader.java
 /Users/admin/Downloads/minispring/src/main/java/org/tapmedia/beans/factory/support/AbstractAutowireCapableBeanFactory.java
+/Users/admin/Downloads/minispring/src/main/java/org/tapmedia/beans/factory/BeanFactoryAware.java
 /Users/admin/Downloads/minispring/src/main/java/org/tapmedia/beans/factory/config/BeanPostProcessor.java
 /Users/admin/Downloads/minispring/src/main/java/org/tapmedia/beans/factory/support/SimpleInstantiationStrategy.java
 /Users/admin/Downloads/minispring/src/main/java/org/tapmedia/beans/factory/config/BeanDefinition.java
@@ -37,5 +41,6 @@
 /Users/admin/Downloads/minispring/src/main/java/org/tapmedia/beans/factory/support/BeanDefinitionRegistry.java
 /Users/admin/Downloads/minispring/src/main/java/org/tapmedia/beans/factory/config/ConfigurableBeanFactory.java
 /Users/admin/Downloads/minispring/src/main/java/org/tapmedia/beans/factory/config/BeanFactoryPostProcessor.java
+/Users/admin/Downloads/minispring/src/main/java/org/tapmedia/context/ApplicationContextAware.java
 /Users/admin/Downloads/minispring/src/main/java/org/tapmedia/context/support/AbstractRefreshableApplicationContext.java
 /Users/admin/Downloads/minispring/src/main/java/org/tapmedia/beans/PropertyValues.java

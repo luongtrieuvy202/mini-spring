@@ -7,6 +7,7 @@ import org.tapmedia.context.ApplicationContext;
 import org.tapmedia.context.ApplicationContextAware;
 
 public class HelloService implements ApplicationContextAware, BeanFactoryAware {
+
 	private ApplicationContext applicationContext;
 
 	private BeanFactory beanFactory;
@@ -26,11 +27,11 @@ public class HelloService implements ApplicationContextAware, BeanFactoryAware {
 		this.applicationContext = applicationContext;
 	}
 
-	public ApplicationContext getApplicationContext(){
+	public ApplicationContext getApplicationContext() {
 		return applicationContext;
 	}
 
-	public BeanFactory getBeanFactory(){
+	public BeanFactory getBeanFactory() {
 		return beanFactory;
 	}
 

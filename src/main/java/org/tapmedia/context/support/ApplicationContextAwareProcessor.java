@@ -6,23 +6,25 @@ import org.tapmedia.context.ApplicationContext;
 import org.tapmedia.context.ApplicationContextAware;
 
 public class ApplicationContextAwareProcessor implements BeanPostProcessor {
-    private final ApplicationContext applicationContext;
 
-    public ApplicationContextAwareProcessor(ApplicationContext applicationContext){
-        this.applicationContext = applicationContext;
-    }
+	private final ApplicationContext applicationContext;
 
-    @Override
-    public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-        if(bean instanceof  ApplicationContextAware){
-            ((ApplicationContextAware)bean).setApplicationContext(applicationContext);
-        }
+	public ApplicationContextAwareProcessor(ApplicationContext applicationContext) {
+		this.applicationContext = applicationContext;
+	}
 
-        return bean;
-    }
+	@Override
+	public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
+		if (bean instanceof ApplicationContextAware) {
+			((ApplicationContextAware) bean).setApplicationContext(applicationContext);
+		}
 
-    @Override
-    public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-        return bean;
-    }
+		return bean;
+	}
+
+	@Override
+	public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
+		return bean;
+	}
+
 }

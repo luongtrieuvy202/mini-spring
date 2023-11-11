@@ -40,7 +40,10 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
 		registerDisposableBeanIfNecessary(beanName, bean, beanDefinition);
 
-		addSingleton(beanName, bean);
+		if (beanDefinition.isSingleton()) {
+			addSingleton(beanName, bean);
+		}
+
 		return bean;
 	}
 
@@ -76,7 +79,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	}
 
 	protected Object initializeBean(String beanName, Object bean, BeanDefinition beanDefinition) {
-		if(bean instanceof BeanFactoryAware){
+		if (bean instanceof BeanFactoryAware) {
 			((BeanFactoryAware) bean).setBeanFactory(this);
 		}
 
@@ -93,9 +96,11 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	}
 
 	protected void registerDisposableBeanIfNecessary(String beanName, Object bean, BeanDefinition beanDefinition) {
-		if (bean instanceof DisposableBean || StrUtil.isNotEmpty(beanDefinition.getDestroyMethodName())) {
-			registerDisposableBean(beanName,
-					new DisposableBeanAdapter(bean, beanName, beanDefinition.getDestroyMethodName()));
+		if (beanDefinition.isSingleton()) {
+			if (bean instanceof DisposableBean || StrUtil.isNotEmpty(beanDefinition.getDestroyMethodName())) {
+				registerDisposableBean(beanName,
+						new DisposableBeanAdapter(bean, beanName, beanDefinition.getDestroyMethodName()));
+			}
 		}
 	}
 

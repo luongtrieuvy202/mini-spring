@@ -15,4 +15,5 @@
     </bean>
     <bean class="org.tapmedia.test.ioc.common.CustomBeanFactoryPostProcessor"/>
     <bean class="org.tapmedia.test.ioc.common.CustomerBeanPostProcessor"/>
+    <bean id="helloService" class="org.tapmedia.test.ioc.service.HelloService"/>
 </beans>

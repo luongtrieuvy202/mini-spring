@@ -1,1 +1,12 @@
-/Users/admin/Downloads/minispring/src/test/java/org/tapmedia/beans/factory/BeanFactoryTest.java
+/Users/admin/Downloads/minispring/src/test/java/org/tapmedia/test/ioc/BeanFactoryProcessorAndBeanPostProcessorTest.java
+/Users/admin/Downloads/minispring/src/test/java/org/tapmedia/test/ioc/BeanDefinitionAndBeanDefinitionRegistryTest.java
+/Users/admin/Downloads/minispring/src/test/java/org/tapmedia/test/ioc/InitAndDestroyMethodTest.java
+/Users/admin/Downloads/minispring/src/test/java/org/tapmedia/test/ioc/common/CustomBeanFactoryPostProcessor.java
+/Users/admin/Downloads/minispring/src/test/java/org/tapmedia/test/ioc/common/CustomerBeanPostProcessor.java
+/Users/admin/Downloads/minispring/src/test/java/org/tapmedia/test/ioc/XmlFileDefineBeanTest.java
+/Users/admin/Downloads/minispring/src/test/java/org/tapmedia/test/ioc/ResourceAndResourceLoaderTest.java
+/Users/admin/Downloads/minispring/src/test/java/org/tapmedia/test/ioc/bean/Person.java
+/Users/admin/Downloads/minispring/src/test/java/org/tapmedia/test/ioc/ApplicationContextTest.java
+/Users/admin/Downloads/minispring/src/test/java/org/tapmedia/test/ioc/bean/Car.java
+/Users/admin/Downloads/minispring/src/test/java/org/tapmedia/test/ioc/service/HelloService.java
+/Users/admin/Downloads/minispring/src/test/java/org/tapmedia/test/ioc/PopulateBeanWithPropertyValuesTest.java

@@ -4,9 +4,19 @@ import org.tapmedia.beans.PropertyValues;
 
 public class BeanDefinition {
 
+	public static String SCOPE_SINGLETON = "singleton";
+
+	public static String SCOPE_PROTOTYPE = "prototype";
+
 	private Class beanClass;
 
 	private PropertyValues propertyValues;
+
+	private String scope = SCOPE_SINGLETON;
+
+	private boolean singleton = true;
+
+	private boolean prototype = false;
 
 	public BeanDefinition(Class beanClass) {
 		this(beanClass, null);
@@ -51,6 +61,20 @@ public class BeanDefinition {
 
 	public void setPropertyValues(PropertyValues propertyValues) {
 		this.propertyValues = propertyValues;
+	}
+
+	public void setScope(String scope) {
+		this.scope = scope;
+		this.singleton = SCOPE_SINGLETON.equals(scope);
+		this.prototype = SCOPE_PROTOTYPE.equals(scope);
+	}
+
+	public boolean isSingleton() {
+		return this.singleton;
+	}
+
+	public boolean isPrototype() {
+		return this.prototype;
 	}
 
 }

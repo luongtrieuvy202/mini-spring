@@ -6,6 +6,7 @@ import cn.hutool.core.util.StrUtil;
 import net.bytebuddy.implementation.bytecode.Throw;
 import org.tapmedia.beans.BeansException;
 import org.tapmedia.beans.PropertyValue;
+import org.tapmedia.beans.factory.BeanFactoryAware;
 import org.tapmedia.beans.factory.DisposableBean;
 import org.tapmedia.beans.factory.InitializingBean;
 import org.tapmedia.beans.factory.config.AutowireCapableBeanFactory;
@@ -39,7 +40,10 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
 		registerDisposableBeanIfNecessary(beanName, bean, beanDefinition);
 
-		addSingleton(beanName, bean);
+		if (beanDefinition.isSingleton()) {
+			addSingleton(beanName, bean);
+		}
+
 		return bean;
 	}
 
@@ -75,6 +79,10 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	}
 
 	protected Object initializeBean(String beanName, Object bean, BeanDefinition beanDefinition) {
+		if (bean instanceof BeanFactoryAware) {
+			((BeanFactoryAware) bean).setBeanFactory(this);
+		}
+
 		Object wrappedBean = applyBeanPostProcessorsBeforeInitialization(bean, beanName);
 
 		try {
@@ -88,9 +96,11 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	}
 
 	protected void registerDisposableBeanIfNecessary(String beanName, Object bean, BeanDefinition beanDefinition) {
-		if (bean instanceof DisposableBean || StrUtil.isNotEmpty(beanDefinition.getDestroyMethodName())) {
-			registerDisposableBean(beanName,
-					new DisposableBeanAdapter(bean, beanName, beanDefinition.getDestroyMethodName()));
+		if (beanDefinition.isSingleton()) {
+			if (bean instanceof DisposableBean || StrUtil.isNotEmpty(beanDefinition.getDestroyMethodName())) {
+				registerDisposableBean(beanName,
+						new DisposableBeanAdapter(bean, beanName, beanDefinition.getDestroyMethodName()));
+			}
 		}
 	}
 

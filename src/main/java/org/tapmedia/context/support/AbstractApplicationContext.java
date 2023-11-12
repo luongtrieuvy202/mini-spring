@@ -5,13 +5,24 @@ import org.tapmedia.beans.factory.ConfigurableListBeanFactory;
 import org.tapmedia.beans.factory.config.BeanFactoryPostProcessor;
 import org.tapmedia.beans.factory.config.BeanPostProcessor;
 import org.tapmedia.beans.factory.config.ConfigurableBeanFactory;
+import org.tapmedia.context.ApplicationEvent;
+import org.tapmedia.context.ApplicationListener;
 import org.tapmedia.context.ConfigurableApplicationContext;
+import org.tapmedia.context.event.ApplicationEventMulticaster;
+import org.tapmedia.context.event.ContextClosedEvent;
+import org.tapmedia.context.event.ContextRefreshedEvent;
+import org.tapmedia.context.event.SimpleApplicationEventMulticaster;
 import org.tapmedia.core.io.DefaultResourceLoader;
 
+import java.util.Collection;
 import java.util.Map;
 
 public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		implements ConfigurableApplicationContext {
+
+	public static final String APPLICATION_EVENT_MULTICASTER_BEAN_NAME = "applicationEventMulticaster";
+
+	private ApplicationEventMulticaster applicationEventMulticaster;
 
 	@Override
 	public void refresh() throws BeansException {
@@ -24,7 +35,13 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 		registerBeanPostProcessors(beanFactory);
 
+		initApplicationEventMultiCaster();
+
+		registerListeners();
+
 		beanFactory.preInstantiateSingletons();
+
+		finishRefresh();
 	}
 
 	protected abstract void refreshBeanFactory() throws BeansException;
@@ -44,6 +61,27 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		for (BeanPostProcessor beanPostProcessor : beanPostProcessorMap.values()) {
 			beanFactory.addBeanPostProcessor(beanPostProcessor);
 		}
+	}
+
+	protected void initApplicationEventMultiCaster() {
+		ConfigurableListBeanFactory beanFactory = getBeanFactory();
+		applicationEventMulticaster = new SimpleApplicationEventMulticaster(beanFactory);
+		beanFactory.addSingleton(APPLICATION_EVENT_MULTICASTER_BEAN_NAME, applicationEventMulticaster);
+	}
+
+	protected void registerListeners() {
+		Collection<ApplicationListener> applicationListeners = getBeansOfType(ApplicationListener.class).values();
+		for (ApplicationListener applicationListener : applicationListeners) {
+			applicationEventMulticaster.addApplicationListener(applicationListener);
+		}
+	}
+
+	protected void finishRefresh() {
+		publishEvent(new ContextRefreshedEvent(this));
+	}
+
+	public void publishEvent(ApplicationEvent event) {
+		applicationEventMulticaster.multicastEvent(event);
 	}
 
 	@Override
@@ -85,6 +123,8 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	}
 
 	protected void doClose() {
+
+		publishEvent(new ContextClosedEvent(this));
 		destroyBeans();
 	}
 

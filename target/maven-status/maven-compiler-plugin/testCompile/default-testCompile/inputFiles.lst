@@ -1,10 +1,13 @@
 /Users/admin/Downloads/minispring/src/test/java/org/tapmedia/test/ioc/BeanDefinitionAndBeanDefinitionRegistryTest.java
+/Users/admin/Downloads/minispring/src/test/java/org/tapmedia/test/ioc/common/event/ContextRefreshedEventListener.java
+/Users/admin/Downloads/minispring/src/test/java/org/tapmedia/test/ioc/common/event/CustomEventListener.java
 /Users/admin/Downloads/minispring/src/test/java/org/tapmedia/test/ioc/FactoryBeanTest.java
 /Users/admin/Downloads/minispring/src/test/java/org/tapmedia/test/ioc/common/CustomerBeanPostProcessor.java
 /Users/admin/Downloads/minispring/src/test/java/org/tapmedia/test/ioc/XmlFileDefineBeanTest.java
 /Users/admin/Downloads/minispring/src/test/java/org/tapmedia/test/ioc/ApplicationContextTest.java
 /Users/admin/Downloads/minispring/src/test/java/org/tapmedia/test/ioc/bean/Car.java
 /Users/admin/Downloads/minispring/src/test/java/org/tapmedia/test/ioc/service/HelloService.java
+/Users/admin/Downloads/minispring/src/test/java/org/tapmedia/test/ioc/EventAndEventListenerTest.java
 /Users/admin/Downloads/minispring/src/test/java/org/tapmedia/test/ioc/PopulateBeanWithPropertyValuesTest.java
 /Users/admin/Downloads/minispring/src/test/java/org/tapmedia/test/ioc/BeanFactoryProcessorAndBeanPostProcessorTest.java
 /Users/admin/Downloads/minispring/src/test/java/org/tapmedia/test/ioc/AwareInterfaceTest.java
@@ -13,4 +16,6 @@
 /Users/admin/Downloads/minispring/src/test/java/org/tapmedia/test/ioc/common/CustomBeanFactoryPostProcessor.java
 /Users/admin/Downloads/minispring/src/test/java/org/tapmedia/test/ioc/ResourceAndResourceLoaderTest.java
 /Users/admin/Downloads/minispring/src/test/java/org/tapmedia/test/ioc/bean/Person.java
+/Users/admin/Downloads/minispring/src/test/java/org/tapmedia/test/ioc/common/event/ContextClosedEventListener.java
 /Users/admin/Downloads/minispring/src/test/java/org/tapmedia/test/ioc/common/CarFactoryBean.java
+/Users/admin/Downloads/minispring/src/test/java/org/tapmedia/test/ioc/common/event/CustomEvent.java

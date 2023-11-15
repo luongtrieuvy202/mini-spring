@@ -16,53 +16,59 @@ import java.lang.annotation.Target;
 import java.util.Collection;
 
 public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPostProcessor, BeanFactoryAware {
-    private DefaultListableBeanFactory beanFactory;
 
-    @Override
-    public Object postProcessBeforeInstantiation(Class<?> beanClass, String beanName) throws BeansException {
-        if(isInfrastructureClass(beanClass)) {
-            return null;
-        }
+	private DefaultListableBeanFactory beanFactory;
 
-        Collection<AspectJExpressionPointcutAdvisor> advisors = beanFactory.getBeansOfType(AspectJExpressionPointcutAdvisor.class).values();
-        try {
-            for(AspectJExpressionPointcutAdvisor advisor:advisors){
-                ClassFilter classFilter = advisor.getPointcut().getClassFilter();
-                if(classFilter.matches(beanClass)){
-                    AdvisedSupport advisedSupport = new AdvisedSupport();
-                    BeanDefinition beanDefinition = beanFactory.getBeanDefinition(beanName);
-                    Object bean = beanFactory.getInstantiationStrategy().instantiate(beanDefinition);
-                    TargetSource targetSource = new TargetSource(bean);
-                    advisedSupport.setTargetSource(targetSource);
-                    advisedSupport.setMethodInterceptor( (MethodInterceptor) advisor.getAdvice());
-                    advisedSupport.setMethodMatcher(advisor.getPointcut().getMethodMatcher());
+	@Override
+	public Object postProcessBeforeInstantiation(Class<?> beanClass, String beanName) throws BeansException {
+		if (isInfrastructureClass(beanClass)) {
+			return null;
+		}
 
-                    return new ProxyFactory(advisedSupport).getProxy();
-                }
-            }
-        }catch (Exception ex){
-            throw new BeansException("Error create proxy bean for: " + beanName, ex);
-        }
+		Collection<AspectJExpressionPointcutAdvisor> advisors = beanFactory
+			.getBeansOfType(AspectJExpressionPointcutAdvisor.class)
+			.values();
+		try {
+			for (AspectJExpressionPointcutAdvisor advisor : advisors) {
+				ClassFilter classFilter = advisor.getPointcut().getClassFilter();
+				if (classFilter.matches(beanClass)) {
+					AdvisedSupport advisedSupport = new AdvisedSupport();
+					BeanDefinition beanDefinition = beanFactory.getBeanDefinition(beanName);
+					Object bean = beanFactory.getInstantiationStrategy().instantiate(beanDefinition);
+					TargetSource targetSource = new TargetSource(bean);
+					advisedSupport.setTargetSource(targetSource);
+					advisedSupport.setMethodInterceptor((MethodInterceptor) advisor.getAdvice());
+					advisedSupport.setMethodMatcher(advisor.getPointcut().getMethodMatcher());
 
-        return null;
-    }
+					return new ProxyFactory(advisedSupport).getProxy();
+				}
+			}
+		}
+		catch (Exception ex) {
+			throw new BeansException("Error create proxy bean for: " + beanName, ex);
+		}
 
-    @Override
-    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
-        this.beanFactory = (DefaultListableBeanFactory) beanFactory;
-    }
+		return null;
+	}
 
-    @Override
-    public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-        return bean;
-    }
+	@Override
+	public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+		this.beanFactory = (DefaultListableBeanFactory) beanFactory;
+	}
 
-    @Override
-    public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-        return bean;
-    }
+	@Override
+	public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
+		return bean;
+	}
 
-    private boolean isInfrastructureClass(Class<?> beanClass) {
-        return Advice.class.isAssignableFrom(beanClass) || Pointcut.class.isAssignableFrom(beanClass) || Advisor.class.isAssignableFrom(beanClass);
-    }
+	@Override
+	public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
+		return bean;
+	}
+
+	private boolean isInfrastructureClass(Class<?> beanClass) {
+		return Advice.class.isAssignableFrom(beanClass) || Pointcut.class.isAssignableFrom(beanClass)
+				|| Advisor.class.isAssignableFrom(beanClass);
+	}
+
 }

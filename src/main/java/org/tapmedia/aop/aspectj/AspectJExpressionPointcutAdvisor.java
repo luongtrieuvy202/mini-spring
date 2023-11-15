@@ -14,7 +14,7 @@ public class AspectJExpressionPointcutAdvisor implements PointcutAdvisor {
 
 	@Override
 	public Pointcut getPointcut() {
-		if(pointcut == null){
+		if (pointcut == null) {
 			pointcut = new AspectjExpressionPointcut(expression);
 		}
 		return pointcut;

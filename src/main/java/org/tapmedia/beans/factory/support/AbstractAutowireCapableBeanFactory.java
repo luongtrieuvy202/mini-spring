@@ -9,10 +9,7 @@ import org.tapmedia.beans.PropertyValue;
 import org.tapmedia.beans.factory.BeanFactoryAware;
 import org.tapmedia.beans.factory.DisposableBean;
 import org.tapmedia.beans.factory.InitializingBean;
-import org.tapmedia.beans.factory.config.AutowireCapableBeanFactory;
-import org.tapmedia.beans.factory.config.BeanDefinition;
-import org.tapmedia.beans.factory.config.BeanPostProcessor;
-import org.tapmedia.beans.factory.config.BeanReference;
+import org.tapmedia.beans.factory.config.*;
 
 import java.lang.reflect.Method;
 
@@ -23,7 +20,32 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
 	@Override
 	protected Object createBean(String beanName, BeanDefinition beanDefinition) throws BeansException {
+		Object bean = resolveBeanInstantiation(beanName,beanDefinition);
+		if(bean != null){
+			return  bean;
+		}
 		return doCreateBean(beanName, beanDefinition);
+	}
+
+	protected Object resolveBeanInstantiation(String beanName, BeanDefinition beanDefinition){
+		Object bean = applyBeanPostProcessorsBeforeInstantiation(beanDefinition.getBeanClass(), beanName);
+		if(bean != null){
+			bean = applyBeanPostProcessorsAfterInitialization(bean,beanName);
+		}
+		return bean;
+	}
+
+	protected Object applyBeanPostProcessorsBeforeInstantiation(Class beanClass, String beanName) {
+		for(BeanPostProcessor beanPostProcessor: getBeanPostProcessors()) {
+			if(beanPostProcessor instanceof InstantiationAwareBeanPostProcessor) {
+				Object result = ((InstantiationAwareBeanPostProcessor) beanPostProcessor).postProcessBeforeInstantiation(beanClass,beanName);
+				if(result != null) {
+					return result;
+				}
+			}
+		}
+
+		return null;
 	}
 
 	protected Object doCreateBean(String beanName, BeanDefinition beanDefinition) {

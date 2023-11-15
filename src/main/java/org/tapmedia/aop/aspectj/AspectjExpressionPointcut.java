@@ -12,36 +12,40 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class AspectjExpressionPointcut implements Pointcut, ClassFilter, MethodMatcher {
-    private static final Set<PointcutPrimitive> SUPPORTED_PRIMITIVES = new HashSet<PointcutPrimitive>();
 
-    static {
-        SUPPORTED_PRIMITIVES.add(PointcutPrimitive.EXECUTION);
-    }
+	private static final Set<PointcutPrimitive> SUPPORTED_PRIMITIVES = new HashSet<PointcutPrimitive>();
 
-    private final PointcutExpression pointcutExpression;
+	static {
+		SUPPORTED_PRIMITIVES.add(PointcutPrimitive.EXECUTION);
+	}
 
-    public AspectjExpressionPointcut(String expression){
-        PointcutParser pointcutParser = PointcutParser.getPointcutParserSupportingSpecifiedPrimitivesAndUsingSpecifiedClassLoaderForResolution(SUPPORTED_PRIMITIVES, this.getClass().getClassLoader());
-        pointcutExpression = pointcutParser.parsePointcutExpression(expression);
-    }
+	private final PointcutExpression pointcutExpression;
 
-    @Override
-    public MethodMatcher getMethodMatcher() {
-        return this;
-    }
+	public AspectjExpressionPointcut(String expression) {
+		PointcutParser pointcutParser = PointcutParser
+			.getPointcutParserSupportingSpecifiedPrimitivesAndUsingSpecifiedClassLoaderForResolution(
+					SUPPORTED_PRIMITIVES, this.getClass().getClassLoader());
+		pointcutExpression = pointcutParser.parsePointcutExpression(expression);
+	}
 
-    @Override
-    public ClassFilter getClassFilter() {
-        return this;
-    }
+	@Override
+	public MethodMatcher getMethodMatcher() {
+		return this;
+	}
 
-    @Override
-    public boolean matches(Method method, Class<?> targetClass) {
-        return pointcutExpression.matchesMethodExecution(method).alwaysMatches();
-    }
+	@Override
+	public ClassFilter getClassFilter() {
+		return this;
+	}
 
-    @Override
-    public boolean matches(Class<?> clazz) {
-        return pointcutExpression.couldMatchJoinPointsInType(clazz);
-    }
+	@Override
+	public boolean matches(Method method, Class<?> targetClass) {
+		return pointcutExpression.matchesMethodExecution(method).alwaysMatches();
+	}
+
+	@Override
+	public boolean matches(Class<?> clazz) {
+		return pointcutExpression.couldMatchJoinPointsInType(clazz);
+	}
+
 }

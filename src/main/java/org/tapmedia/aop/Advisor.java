@@ -2,6 +2,8 @@ package org.tapmedia.aop;
 
 import org.aopalliance.aop.Advice;
 
-public interface BeforeAdvice extends Advice {
+public interface Advisor {
+
+	Advice getAdvice();
 
 }

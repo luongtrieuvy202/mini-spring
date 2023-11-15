@@ -3,6 +3,7 @@ package org.tapmedia.aop;
 import org.aopalliance.intercept.MethodInterceptor;
 
 public class AdvisedSupport {
+
 	private boolean proxyTargetClass = false;
 
 	private TargetSource targetSource;
@@ -42,4 +43,5 @@ public class AdvisedSupport {
 	public void setProxyTargetClass(boolean proxyTargetClass) {
 		this.proxyTargetClass = proxyTargetClass;
 	}
+
 }

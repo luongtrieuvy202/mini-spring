@@ -3,21 +3,23 @@ package org.tapmedia.aop.framework;
 import org.tapmedia.aop.AdvisedSupport;
 
 public class ProxyFactory {
-    private AdvisedSupport advisedSupport;
 
-    public ProxyFactory(AdvisedSupport advisedSupport){
-        this.advisedSupport = advisedSupport;
-    }
+	private AdvisedSupport advisedSupport;
 
-    public Object getProxy(){
-        return createAopProxy().getProxy();
-    }
+	public ProxyFactory(AdvisedSupport advisedSupport) {
+		this.advisedSupport = advisedSupport;
+	}
 
-    private AopProxy createAopProxy(){
-        if(advisedSupport.isProxyTargetClass()){
-            return new CglibAopProxy(advisedSupport);
-        }
+	public Object getProxy() {
+		return createAopProxy().getProxy();
+	}
 
-        return new JdkDynamicAopProxy(advisedSupport);
-    }
+	private AopProxy createAopProxy() {
+		if (advisedSupport.isProxyTargetClass()) {
+			return new CglibAopProxy(advisedSupport);
+		}
+
+		return new JdkDynamicAopProxy(advisedSupport);
+	}
+
 }

@@ -1,10 +1,13 @@
 package org.tapmedia.test.aop;
 
+import org.aopalliance.intercept.MethodInterceptor;
 import org.junit.Before;
 import org.junit.Test;
 import org.tapmedia.aop.AdvisedSupport;
+import org.tapmedia.aop.ClassFilter;
 import org.tapmedia.aop.MethodMatcher;
 import org.tapmedia.aop.TargetSource;
+import org.tapmedia.aop.aspectj.AspectJExpressionPointcutAdvisor;
 import org.tapmedia.aop.aspectj.AspectjExpressionPointcut;
 import org.tapmedia.aop.framework.CglibAopProxy;
 import org.tapmedia.aop.framework.JdkDynamicAopProxy;
@@ -65,6 +68,27 @@ public class DynamicProxyTest {
 
 		WorldService proxy = (WorldService) new ProxyFactory(advisedSupport).getProxy();
 		proxy.explode();
+	}
+
+	@Test
+	public void testAdvisor() throws Exception {
+		WorldService worldService = new WorldServiceImpl();
+		String expression = "execution(* org.tapmedia.test.ioc.service.WorldService.explode(..))";
+		AspectJExpressionPointcutAdvisor advisor = new AspectJExpressionPointcutAdvisor();
+		advisor.setExpression(expression);
+		MethodBeforeAdviceInterceptor methodBeforeAdviceInterceptor = new MethodBeforeAdviceInterceptor(
+				new WorldServiceBeforeAdvice());
+		advisor.setAdvice(methodBeforeAdviceInterceptor);
+
+		ClassFilter classFilter = advisor.getPointcut().getClassFilter();
+		if (classFilter.matches(worldService.getClass())) {
+			AdvisedSupport advisedSupport1 = new AdvisedSupport();
+			TargetSource targetSource = new TargetSource(worldService);
+			advisedSupport.setTargetSource(targetSource);
+			advisedSupport.setMethodInterceptor((MethodInterceptor) advisor.getAdvice());
+			WorldService proxy = (WorldService) new ProxyFactory(advisedSupport).getProxy();
+			proxy.explode();
+		}
 	}
 
 }

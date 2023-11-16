@@ -14,6 +14,7 @@ import org.tapmedia.beans.factory.support.AbstractBeanDefinitionReader;
 import org.tapmedia.beans.factory.support.BeanDefinitionReader;
 import org.tapmedia.beans.factory.support.BeanDefinitionRegistry;
 import org.tapmedia.beans.factory.support.DefaultSingletonBeanRegistry;
+import org.tapmedia.context.annotation.ClassPathBeanDefinitionScanner;
 import org.tapmedia.core.io.Resource;
 import org.tapmedia.core.io.ResourceLoader;
 
@@ -47,6 +48,10 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
 	public static final String SCOPE_ATTRIBUTE = "scope";
 
+	public static final String BASE_PACKAGE_ATTRIBUTE = "base-package";
+
+	public static final String COMPONENT_SCAN_ELEMENT = "component-scan";
+
 	public XmlBeanDefinitionReader(BeanDefinitionRegistry registry) {
 		super(registry);
 	}
@@ -75,8 +80,17 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	protected void doLoadBeanDefinitions(InputStream inputStream) throws DocumentException {
 		SAXReader reader = new SAXReader();
 		Document document = reader.read(inputStream);
-		Element beans = document.getRootElement();
-		List<Element> beanList = beans.elements(BEAN_ELEMENT);
+		Element root = document.getRootElement();
+
+		Element componentScan = root.element(COMPONENT_SCAN_ELEMENT);
+		if (componentScan != null) {
+			String scanPath = componentScan.attributeValue(BASE_PACKAGE_ATTRIBUTE);
+			if (StrUtil.isEmpty(scanPath)) {
+				throw new BeansException("The value of base-package attribute can not be empty or null");
+			}
+			scanPackage(scanPath);
+		}
+		List<Element> beanList = root.elements(BEAN_ELEMENT);
 		for (Element bean : beanList) {
 			String beanId = bean.attributeValue(ID_ATTRIBUTE);
 			String beanName = bean.attributeValue(NAME_ATTRIBUTE);
@@ -132,6 +146,12 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
 			getRegister().registerBeanDefinition(beanName, beanDefinition);
 		}
+	}
+
+	private void scanPackage(String scanPath) {
+		String[] basePackages = StrUtil.splitToArray(scanPath, ',');
+		ClassPathBeanDefinitionScanner scanner = new ClassPathBeanDefinitionScanner(getRegister());
+		scanner.doScan(basePackages);
 	}
 
 }

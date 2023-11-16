@@ -2,6 +2,8 @@ package org.tapmedia.beans.factory.config;
 
 import org.tapmedia.beans.PropertyValues;
 
+import java.util.Objects;
+
 public class BeanDefinition {
 
 	public static String SCOPE_SINGLETON = "singleton";
@@ -75,6 +77,21 @@ public class BeanDefinition {
 
 	public boolean isPrototype() {
 		return this.prototype;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(beanClass);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null || getClass() != obj.getClass())
+			return false;
+		BeanDefinition that = (BeanDefinition) obj;
+		return beanClass.equals(that.beanClass);
 	}
 
 }

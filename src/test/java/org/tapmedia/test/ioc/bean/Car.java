@@ -1,5 +1,8 @@
 package org.tapmedia.test.ioc.bean;
 
+import org.tapmedia.context.annotation.Component;
+
+@Component
 public class Car {
 
 	private String brand;

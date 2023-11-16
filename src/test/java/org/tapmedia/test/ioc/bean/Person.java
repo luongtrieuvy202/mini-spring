@@ -2,7 +2,10 @@ package org.tapmedia.test.ioc.bean;
 
 import org.tapmedia.beans.factory.DisposableBean;
 import org.tapmedia.beans.factory.InitializingBean;
+import org.tapmedia.context.annotation.Autowired;
+import org.tapmedia.context.annotation.Component;
 
+@Component
 public class Person implements InitializingBean, DisposableBean {
 
 	private String name;
@@ -27,6 +30,7 @@ public class Person implements InitializingBean, DisposableBean {
 		System.out.println("I died in the method named customDestroyMethod");
 	}
 
+	@Autowired
 	private Car car;
 
 	public String getName() {

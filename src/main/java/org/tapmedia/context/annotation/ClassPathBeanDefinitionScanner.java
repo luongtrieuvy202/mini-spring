@@ -8,10 +8,14 @@ import java.util.Set;
 
 public class ClassPathBeanDefinitionScanner extends ClassPathScanningCandidateComponentProvider {
 
+	public static final String AUTOWIRED_ANNOTATION_PROCESSOR_BEAN_NAME = "org.tapmedia.context.annotation.internalAutowiredAnnotationProcessor";
+
 	private BeanDefinitionRegistry registry;
 
 	public ClassPathBeanDefinitionScanner(BeanDefinitionRegistry registry) {
 		this.registry = registry;
+		registry.registerBeanDefinition(AUTOWIRED_ANNOTATION_PROCESSOR_BEAN_NAME,
+				new BeanDefinition(AutowiredAnnotationBeanPostProcessor.class));
 	}
 
 	public void doScan(String... basePackages) {

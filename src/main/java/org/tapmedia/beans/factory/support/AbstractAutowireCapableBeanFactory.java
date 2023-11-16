@@ -6,6 +6,7 @@ import cn.hutool.core.util.StrUtil;
 import net.bytebuddy.implementation.bytecode.Throw;
 import org.tapmedia.beans.BeansException;
 import org.tapmedia.beans.PropertyValue;
+import org.tapmedia.beans.PropertyValues;
 import org.tapmedia.beans.factory.BeanFactoryAware;
 import org.tapmedia.beans.factory.DisposableBean;
 import org.tapmedia.beans.factory.InitializingBean;
@@ -54,6 +55,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		Object bean = null;
 		try {
 			bean = createBeanInstance(beanDefinition);
+			applyBeanPostProcessorsBeforeApplyingPropertyValues(beanName, bean, beanDefinition);
 			applyPropertyValues(beanName, bean, beanDefinition);
 			initializeBean(beanName, bean, beanDefinition);
 		}
@@ -68,6 +70,21 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		}
 
 		return bean;
+	}
+
+	protected void applyBeanPostProcessorsBeforeApplyingPropertyValues(String beanName, Object bean,
+			BeanDefinition beanDefinition) {
+		for (BeanPostProcessor beanPostProcessor : getBeanPostProcessors()) {
+			if (beanPostProcessor instanceof InstantiationAwareBeanPostProcessor) {
+				PropertyValues pvs = ((InstantiationAwareBeanPostProcessor) beanPostProcessor)
+					.postProcessPropertyValues(beanDefinition.getPropertyValues(), bean, beanName);
+				if (pvs != null) {
+					for (PropertyValue propertyValue : pvs.getPropertyValues()) {
+						beanDefinition.getPropertyValues().addPropertyValue(propertyValue);
+					}
+				}
+			}
+		}
 	}
 
 	protected void applyPropertyValues(String beanName, Object bean, BeanDefinition beanDefinition) {

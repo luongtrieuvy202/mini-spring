@@ -6,6 +6,7 @@ import org.tapmedia.aop.*;
 import org.tapmedia.aop.aspectj.AspectJExpressionPointcutAdvisor;
 import org.tapmedia.aop.framework.ProxyFactory;
 import org.tapmedia.beans.BeansException;
+import org.tapmedia.beans.PropertyValues;
 import org.tapmedia.beans.factory.BeanFactory;
 import org.tapmedia.beans.factory.BeanFactoryAware;
 import org.tapmedia.beans.factory.config.BeanDefinition;
@@ -49,6 +50,12 @@ public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPos
 		}
 
 		return null;
+	}
+
+	@Override
+	public PropertyValues postProcessPropertyValues(PropertyValues pvs, Object bean, String beanName)
+			throws BeansException {
+		return pvs;
 	}
 
 	@Override
